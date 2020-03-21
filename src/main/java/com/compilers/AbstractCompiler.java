@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.entities.CompilationFile;
 import com.entities.CompilationUnit;
@@ -34,28 +35,38 @@ public abstract class AbstractCompiler {
 			writer.print(file.getFileContent());
 			writer.close();
 		}
-		compile(compilationUnit, workingDirectory);
-		return run(compilationUnit, workingDirectory);
+		String compileErr = compile(compilationUnit, workingDirectory);
+		if(compileErr.equals(""))
+		{
+			return run(compilationUnit, workingDirectory);
+		}
+		return compileErr;
 	}
 	
-	public static String execCmd(String[] cmd) throws IOException {
+	public static String execCmd(String[] cmd, File file) throws IOException {
 	    ProcessBuilder builder = new ProcessBuilder(cmd);
-	   // builder.directory(file);
+	    builder.directory(file);
 	    builder.redirectErrorStream(true);
 	    Process proc = builder.start();
 	    BufferedReader stdInput = new BufferedReader(new 
 	    	     InputStreamReader(proc.getInputStream()));
 	    String val="";
 	    String line = "";
+	    try {
+			proc.waitFor(10, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    while((line = stdInput.readLine()) != null )
 	    {
-	    	val += line;
+	    	val += (line+ "\n");
 
 	    }
 	    
 	    return val;
 	}
 	
-	protected abstract void compile(CompilationUnit compilationUnit, String workingDirectory);
+	protected abstract String compile(CompilationUnit compilationUnit, String workingDirectory);
 	protected abstract String run(CompilationUnit compilationUnit, String workingDirectory);
 }

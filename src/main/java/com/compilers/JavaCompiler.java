@@ -10,12 +10,11 @@ import com.entities.CompilationUnit;
 public class JavaCompiler extends AbstractCompiler{
 
 	@Override
-	protected void compile(CompilationUnit compilationUnit, String workingDirectory) {
+	protected String compile(CompilationUnit compilationUnit, String workingDirectory) {
 		Runtime rt = Runtime.getRuntime();
-		String command = "javac " + compilationUnit.getMainFileName();
+		String[] command = {"javac", "*.java"};
 		try {
-			Process pr = rt.exec(command, null, new File(workingDirectory));
-			pr.waitFor();
+			return execCmd(command, new File(workingDirectory));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -28,7 +27,7 @@ public class JavaCompiler extends AbstractCompiler{
 		String mainFile = compilationUnit.getMainFileName();
 		String [] commands = {"java" ,"-cp", workingDirectory, mainFile.substring(0, mainFile.length() -5)};
 		try {
-			return execCmd(commands);
+			return execCmd(commands, new File(workingDirectory));
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
