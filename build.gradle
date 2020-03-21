@@ -51,13 +51,13 @@ bootRun {
 }
 
 task webpack(type: Exec) {
-   inputs.dir("React")
+   inputs.dir("frontend")
    inputs.file("webpack.config.js")
    outputs.dir("./src/main/resources/static")
    outputs.dir("./build/resources/main/static")   
    
    String webpackCall = (Os.isFamily(Os.FAMILY_WINDOWS)) ? "$projectDir/node_modules/.bin/webpack.cmd" : "$projectDir/node_modules/.bin/webpack"
-   commandLine webpackCall , "./React/js/index.js"
+   commandLine webpackCall , "./frontend/index.js"
 
    doLast{
       copy {
