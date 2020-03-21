@@ -10,5 +10,6 @@ build/
 .settings/
 out/
 .idea/
+temp/
 /src/main/resources/static/index.html
 /src/main/resources/static/index_bundle.js
