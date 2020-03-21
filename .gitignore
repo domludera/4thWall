@@ -1,0 +1,14 @@
+
+/.metadata/
+/bin/
+node_modules/
+.classpath
+.project
+.recommenders
+.gradle/
+build/
+.settings/
+out/
+.idea/
+/src/main/resources/static/index.html
+/src/main/resources/static/index_bundle.js
