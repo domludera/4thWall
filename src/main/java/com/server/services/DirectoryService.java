@@ -36,7 +36,7 @@ public class DirectoryService implements IDirectoryService{
 		if(directory.contains(temporaryDirectoryPath)) {
 			System.out.println("Releasing " + directory) ;
 			
-/*			File file = new File(directory);
+			File file = new File(directory);
 			try {
 				FileUtils.deleteDirectory(file);
 			} catch (IOException e) {
@@ -44,7 +44,7 @@ public class DirectoryService implements IDirectoryService{
 				throw new RuntimeException("Failed to delete temp dir");
 			}
 			
-			file.mkdir();*/
+			file.mkdir();
 			directoryQueue.add(directory);
 		}
 	}
