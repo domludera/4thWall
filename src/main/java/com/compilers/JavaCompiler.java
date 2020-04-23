@@ -12,7 +12,7 @@ public class JavaCompiler extends AbstractCompiler{
 	@Override
 	protected String compile(CompilationUnit compilationUnit, String workingDirectory) {
 		Runtime rt = Runtime.getRuntime();
-		String[] command = {"javac", "*.java"};
+		String[] command = {"javac", compilationUnit.getMainFileName()};
 		try {
 			return execCmd(command, new File(workingDirectory));
 		} catch (Exception e) {
