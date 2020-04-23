@@ -1,10 +1,10 @@
 package com.compilers;
 
 import java.io.File;
-import java.io.InputStream;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.entities.CompilationFile;
 import com.entities.CompilationUnit;
 
 public class JavaCompiler extends AbstractCompiler{
@@ -12,7 +12,16 @@ public class JavaCompiler extends AbstractCompiler{
 	@Override
 	protected String compile(CompilationUnit compilationUnit, String workingDirectory) {
 		Runtime rt = Runtime.getRuntime();
-		String[] command = {"javac", compilationUnit.getMainFileName()};
+		
+		List<String> commandList = new ArrayList<>(); 
+		List<CompilationFile> compilationFiles = compilationUnit.getCompilationFiles();
+		commandList.add("javac");
+		for(CompilationFile file : compilationFiles) {
+			commandList.add(file.getFileName());	
+		}
+		String[] command = new String[commandList.size()];
+		command = commandList.toArray(command);
+		
 		try {
 			return execCmd(command, new File(workingDirectory));
 		} catch (Exception e) {
