@@ -36,7 +36,7 @@ public abstract class AbstractCompiler {
 			writer.close();
 		}
 		String compileErr = compile(compilationUnit, workingDirectory);
-		if(compileErr.equals(""))
+		if(!compileErr.contains("error"))
 		{
 			return run(compilationUnit, workingDirectory);
 		}
