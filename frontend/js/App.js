@@ -1,39 +1,94 @@
-import React, { Component } from 'react';
-import '../css/App.css';
+import 'aframe';
+import 'aframe-textarea-component';
+import 'babel-polyfill';
+import {Entity, Scene} from 'aframe-react';
+import React from 'react';
+import hotkeys from "hotkeys-js";
+// const utils = require('./KeyShortcuts');
 
-import { BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 
-
-class App extends Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    
+        frame: null,
+        target: null,
+        prevTarget: null
     };
-   }
-   
-  render() {
-    return (
-      <div>
-        <a-scene>
 
-          <a-entity id="window1" position="0 1.5 -1" textarea="cols: 20; rows: 4; text: this is a multiline textarea; backgroundColor: #01579b; color: white; disabledBackgroundColor: red; disabled: false;">
-          </a-entity>
+    this.addListenerEnter = this.addListenerEnter.bind(this);
+    this.addListenerLeave = this.addListenerLeave.bind(this);
 
-          <a-entity visible="false" id="menubar">
-            <a-plane position="0 0 -3" rotation="-30 0 0" width="4" height="1" color="#7BC8A4">
-              <a-plane position="-1.6 0.3 0.2" width="0.5" height="0.5" color="blue">
-                <a-text value="Back" width="2"></a-text>
-              </a-plane>
-              <a-entity id="input" position="0.8 0.2 1" width="1" textarea="cols: 10; rows: 1; text: this is a multiline textarea; backgroundColor: #01579b; color: black; disabledBackgroundColor: red; disabled: false;">
-              </a-entity>
-              <a-entity id="file-area"/>
-            </a-plane>
-          </a-entity>
+  }
 
-          <a-camera><a-cursor></a-cursor></a-camera>
-        </a-scene>
-      </div>
+
+  componentDidMount(){
+
+      var frame = document.querySelectorAll('.frame');
+      console.log(frame);
+
+      this.addListenerEnter(frame);
+      this.addListenerLeave(frame);
+
+      hotkeys('q', function(event, handler) {
+          event.preventDefault();
+          if(this.state.target !== undefined) {
+              console.log(this.state.target.components.textarea.textarea.value);
+          }
+          /*
+           * Get text of textarea
+           * store in JSON
+           * send JSON to backend
+           */
+          console.log('save file');
+      });
+  }
+
+  addListenerEnter(frame) {
+      frame.forEach(item => {
+          item.addEventListener('mouseenter', function (e) {
+              if (this.state.prevTarget !== undefined) {
+                  this.setState({
+                      target: e.currentTarget,
+                      prevTarget: this.state.target,
+                  });
+                  this.state.prevTarget.setAttribute("textarea", "disabled: true");
+                  this.state.target.setAttribute("textarea", "disabled: false");
+              }
+
+              this.setState({
+                  prevTarget: e.currentTarget
+              });
+
+          })
+      });
+  }
+
+  addListenerLeave(frame) {
+      frame.forEach(item => {
+          item.addEventListener('mouseleave', function (e) {
+              this.setState({
+                  target: e.currentTarget,
+              });
+              this.state.target.setAttribute("textarea", "disabled: true");
+          })
+      });
+  }
+
+
+    render () {
+      return (
+
+        <Scene>
+
+            <Entity class="frame" id="desc" position="-1 1.2 -1" rotation="0 30 0" textarea="cols: 80; rows: 40; text: this is a multiline textarea; backgroundColor: #ff00ff; color: white; disabledBackgroundColor: red; disabled: false;"/>
+            <Entity class="frame" id="code" position="1 1.2 -1" rotation="0 -30 0" textarea="cols: 80; rows: 40; text: this is a multiline textarea; backgroundColor: #0000ff; color: white; disabledBackgroundColor: red; disabled: false;"/>
+
+            <Entity primitive="a-camera">
+                <Entity primitive="a-cursor"/>
+            </Entity>
+
+        </Scene>
     );
   }
 }
