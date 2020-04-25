@@ -70,7 +70,7 @@ task webpack(type: Exec) {
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
 
-build.dependsOn webpack
+//build.dependsOn webpack
 bootRun.dependsOn webpack
 webpack.dependsOn npmInstall
 
