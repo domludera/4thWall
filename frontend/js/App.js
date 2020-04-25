@@ -120,19 +120,19 @@ class App extends React.Component {
         return (
             <Scene>
 
-                <Entity class="frame-desc" id="desc" position="-0.6 1 -1" rotation="0 30 0"
+                <Entity class="frame-desc" id="desc" position="-0.6 1 -1.2" rotation="0 30 0"
                         textarea="cols: 60; rows: 40; text: press 'ctrl+n' to generate new problem; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #dddddd; disabled: true;"
                 />
 
-                <Entity class="frame" id="title1" position="0.6 1.8 -1" rotation="0 -30 0"
+                <Entity class="frame" id="title1" position="0.6 1.8 -1.2" rotation="0 -30 0"
                         textarea="cols: 40; rows: 1; text: untitled.java; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
                 />
 
-                <Entity class="frame" id="code1" position="0.6 1 -1" rotation="0 -30 0"
+                <Entity class="frame" id="code1" position="0.6 1 -1.2" rotation="0 -30 0"
                         textarea="cols: 60; rows: 40; text: //this is where your code!; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
                 />
 
-                <Entity class="frame" id="notes" position="0 0.6 -0.6" rotation="-30 0 0"
+                <Entity class="frame" id="notes" position="0 0.6 -1" rotation="-20 0 0"
                         textarea="cols: 60; rows: 40; text: put your notes here\n//press ctrl+b to toggle; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
                 />
 
