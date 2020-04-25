@@ -4,92 +4,145 @@ import 'babel-polyfill';
 import {Entity, Scene} from 'aframe-react';
 import React from 'react';
 import hotkeys from "hotkeys-js";
-// const utils = require('./KeyShortcuts');
-
+import problems from "../problems.json";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        frame: null,
-        target: null,
-        prevTarget: null
-    };
 
-    this.addListenerEnter = this.addListenerEnter.bind(this);
-    this.addListenerLeave = this.addListenerLeave.bind(this);
+    constructor(props) {
+        super(props);
 
-  }
+        this.state = {
+            language: "java",
+            mainFileName: "", //A3Q3 + .java example
+            compilationFiles: [
+                {
+                    //Put the main file
+                    fileName: "", //A3Q3.java example
+                    fileContent: ""
+                }
+            ]
+        }
+    }
 
+    updateProblem() {
+        let target_frame = document.querySelector('#desc');
+        let chosenProblem = Math.floor(Math.random() * Object.keys(problems).length);
+        target_frame.setAttribute("textarea", "text: "+problems[chosenProblem]);
 
-  componentDidMount(){
+    }
 
-      var frame = document.querySelectorAll('.frame');
-      console.log(frame);
+    componentDidMount() {
 
-      this.addListenerEnter(frame);
-      this.addListenerLeave(frame);
+        let constr = this;
+        let frame = document.querySelectorAll('.frame');
+        let target;
+        let prevTarget;
 
-      hotkeys('q', function(event, handler) {
-          event.preventDefault();
-          if(this.state.target !== undefined) {
-              console.log(this.state.target.components.textarea.textarea.value);
-          }
-          /*
-           * Get text of textarea
-           * store in JSON
-           * send JSON to backend
-           */
-          console.log('save file');
-      });
-  }
-
-  addListenerEnter(frame) {
-      frame.forEach(item => {
-          item.addEventListener('mouseenter', function (e) {
-              if (this.state.prevTarget !== undefined) {
-                  this.setState({
-                      target: e.currentTarget,
-                      prevTarget: this.state.target,
-                  });
-                  this.state.prevTarget.setAttribute("textarea", "disabled: true");
-                  this.state.target.setAttribute("textarea", "disabled: false");
-              }
-
-              this.setState({
-                  prevTarget: e.currentTarget
-              });
-
-          })
-      });
-  }
-
-  addListenerLeave(frame) {
-      frame.forEach(item => {
-          item.addEventListener('mouseleave', function (e) {
-              this.setState({
-                  target: e.currentTarget,
-              });
-              this.state.target.setAttribute("textarea", "disabled: true");
-          })
-      });
-  }
+        for (let i = 0; i < frame.length; i++) {
+            frame[i].addEventListener('mouseenter', function (e) {
+                if (target != null) {
+                    prevTarget = target;
+                    prevTarget.setAttribute("textarea", "disabled: true");
+                }
+                target = e.currentTarget;
+                target.setAttribute("textarea", "disabled: false");
+            });
+            frame[i].addEventListener('mouseleave', function (e) {
+                target = e.currentTarget;
+                target.setAttribute("textarea", "disabled: true")
+            });
+        }
 
 
-    render () {
-      return (
 
-        <Scene>
+        hotkeys('ctrl+s', function (event, handler) {
+            event.preventDefault();
+            if (target !== null) {
+                console.log(target.components.textarea.textarea.value);
+                constr.setState({
+                    language: "java",
+                    mainFileName: "problem.java",
+                    compilationFiles: [
+                        {
+                            fileName: "problem.java",
+                            fileContent: "HelloWorld!"
+                        }
+                    ]
+                });
+            }
+            constr.createRequest();
+        });
 
-            <Entity class="frame" id="desc" position="-1 1.2 -1" rotation="0 30 0" textarea="cols: 80; rows: 40; text: this is a multiline textarea; backgroundColor: #ff00ff; color: white; disabledBackgroundColor: red; disabled: false;"/>
-            <Entity class="frame" id="code" position="1 1.2 -1" rotation="0 -30 0" textarea="cols: 80; rows: 40; text: this is a multiline textarea; backgroundColor: #0000ff; color: white; disabledBackgroundColor: red; disabled: false;"/>
+        hotkeys('ctrl+n', function (event, handler) {
+            event.preventDefault();
+            constr.updateProblem();
+        });
 
-            <Entity primitive="a-camera">
-                <Entity primitive="a-cursor"/>
-            </Entity>
+        hotkeys('tab', function (event, handler) {
+            event.preventDefault();
+            constr.updateProblem();
+        });
 
-        </Scene>
-    );
-  }
+        hotkeys('ctrl+b', function (event, handler) {
+            event.preventDefault();
+            let notes = document.querySelector('#notes');
+            let visible_boolean = notes.getAttribute('visible');
+            visible_boolean = !visible_boolean;
+            notes.setAttribute('visible', visible_boolean.toString());
+        });
+
+    }
+
+    createRequest() {
+        fetch('https://vr-ide.herokuapp.com/compile', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify({
+                "language": this.state.language,
+                "mainFileName": this.state.mainFileName,
+                "compilationFiles": this.state.compilationFiles
+            })
+        }).then((response) => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log(jsonResponse);
+
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    render() {
+        return (
+            <Scene>
+
+                <Entity class="frame-desc" id="desc" position="-0.6 1 -1" rotation="0 30 0"
+                        textarea="cols: 60; rows: 40; text: press 'ctrl+n' to generate new problem; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #dddddd; disabled: true;"
+                />
+
+                <Entity class="frame" id="title1" position="0.6 1.8 -1" rotation="0 -30 0"
+                        textarea="cols: 40; rows: 1; text: untitled.java; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
+                />
+
+                <Entity class="frame" id="code1" position="0.6 1 -1" rotation="0 -30 0"
+                        textarea="cols: 60; rows: 40; text: //this is where your code!; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
+                />
+
+                <Entity class="frame" id="notes" position="0 0.6 -0.6" rotation="-30 0 0"
+                        textarea="cols: 60; rows: 40; text: put your notes here\n//press ctrl+b to toggle; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #ff0000; disabled: true;"
+                />
+
+                <Entity primitive="a-camera">
+                    <Entity primitive="a-cursor"/>
+                </Entity>
+
+            </Scene>
+        );
+    }
 }
+
 export default App;
