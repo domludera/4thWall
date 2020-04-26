@@ -161,7 +161,7 @@ class App extends React.Component {
             response.text().then(data => {
                 let fconsole = document.querySelector("#console");
                 fconsole.setAttribute("textarea", "text: "+data);
-                // fconsole.setAttribute("visible", "true");
+                fconsole.setAttribute("visible", "true");
 
             });
         }).catch(error => {
@@ -176,27 +176,27 @@ class App extends React.Component {
             <Scene>
 
                 <Entity class="help" id="help" position="0 1.2 -1" rotation="-10 0 0"
-                        textarea="cols: 40; rows: 12; backgroundColor: #000000; color: #eeee00; disabledBackgroundColor: #000000; disabled: true;"
+                        textarea="cols: 40; rows: 12; backgroundColor: #000000; color: #f5cb5c; disabledBackgroundColor: #242423; disabled: true;"
                 />
 
                 <Entity class="f desc" id="desc" position="-0.6 1 -1.2" rotation="0 20 0"
-                        textarea="cols: 60; rows: 40; text: press 'ctrl+n' to generate new problem; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #dddddd; disabled: true;"
+                        textarea="cols: 60; rows: 40; text: press 'ctrl+n' to generate new problem; backgroundColor: #e8eddf; color: #242423; disabledBackgroundColor: #cfdbd5; disabled: true;"
                 />
 
                 <Entity class="f frame file" id="title1" position="0.6 1.8 -1.2" rotation="0 -20 0"
-                        textarea="cols: 40; rows: 1; text: Untitled.java; backgroundColor: #eeeeee; color: #000000; disabledBackgroundColor: #999999; disabled: true;"
+                        textarea="cols: 40; rows: 1; text: Untitled.java; backgroundColor: #e8eddf; color: #242423; disabledBackgroundColor: #cfdbd5; disabled: true;"
                 />
 
                 <Entity class="f frame file" id="code1" position="0.6 1 -1.2" rotation="0 -20 0"
-                        textarea="cols: 60; rows: 40; text: //this is where you code!; backgroundColor: #eeeeee; color: #000000; disabledBackgroundColor: #999999; disabled: true;"
+                        textarea="cols: 60; rows: 40; text: //this is where you code!; backgroundColor: #e8eddf; color: #242423; disabledBackgroundColor: #cfdbd5; disabled: true;"
                 />
 
                 <Entity class="f frame notes" id="notes" position="0 0.6 -1" rotation="-20 0 0"
-                        textarea="cols: 60; rows: 40; text: put your notes here\n//press 'ctrl+b' to toggle; backgroundColor: #ffff99; color: #000000; disabledBackgroundColor: #bbbb99; disabled: true;"
+                        textarea="cols: 60; rows: 40; text: put your notes here\n//press 'ctrl+b' to toggle; backgroundColor: #ffff99; color: #242423; disabledBackgroundColor: #bbbb99; disabled: true;"
                 />
 
                 <Entity class="f console" id="console" position="0 2 -1" rotation="20 0 0"
-                        textarea="cols: 80; rows: 10; text: //console log; color: #ffffff; disabledBackgroundColor: #111111; disabled: true;"
+                        textarea="cols: 80; rows: 10; text: //console log; color: #ffffff; disabledBackgroundColor: #333533; disabled: true;"
                 />
 
                 <Entity primitive="a-camera">
