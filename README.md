@@ -1,4 +1,4 @@
-# SOEN357 - 4th Wall
+# 4th Wall - a VR IDE
 
 ### Problem: 
 Developers often have insufficient monitor real estate. The lack of visual space for a productive workspace has led to purchases of clunky, overly-large monitors all in an effort to ultimately increase productivity during development on multi-resource software. These attempts at creating a setup that allows for a productive workflow has become costly and often fail to reach the objective: a simple, minimalist, efficient workspace. 
