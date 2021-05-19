@@ -2,6 +2,12 @@
 
 Final Report: https://github.com/domludera/4thWall/blob/master/FinalReport4thWall.pdf
 
+![4thwall](https://user-images.githubusercontent.com/31933091/118828636-6fc3cd00-b88b-11eb-9cd3-fb54a41ce462.png)
+![4thwallmenu](https://user-images.githubusercontent.com/31933091/118828758-8c600500-b88b-11eb-9950-c75dbd7f38c2.png)
+
+![4thwallconsole](https://user-images.githubusercontent.com/31933091/118828674-781c0800-b88b-11eb-85fb-7ff699faccd9.png)
+
+
 ### Problem: 
 Developers often have insufficient monitor real estate. The lack of visual space for a productive workspace has led to purchases of clunky, overly-large monitors all in an effort to ultimately increase productivity during development on multi-resource software. These attempts at creating a setup that allows for a productive workflow has become costly and often fail to reach the objective: a simple, minimalist, efficient workspace. 
 
